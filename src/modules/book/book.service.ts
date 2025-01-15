@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { Exception } from "@tsed/exceptions";
 import {
   HttpResponseBodySuccessDto,
@@ -11,10 +13,13 @@ export class BookService {
   constructor(private readonly bookRepository = new BookRepsitory()) {}
 
   async findAll(
-    skip: number,
-    take: number
+    page: number,
+    limit: number
   ): Promise<HttpResponseBodySuccessDto<Book[]> | Exception> {
     try {
+      const skip = (page - 1) * limit;
+      const take = limit;
+
       const [books, totalRecords] = await this.bookRepository.findAll(
         skip,
         take
@@ -23,7 +28,12 @@ export class BookService {
       return {
         status: "success",
         data: books,
-        totalPage: totalPage,
+        pagination: {
+          totalItems: totalRecords,
+          itemsPerPage: limit,
+          currentPage: page,
+          totalPages: totalPage,
+        },
       };
     } catch (error) {
       return new InternalServerException();
@@ -58,10 +68,10 @@ export class BookService {
 
   async updateBook(id: string, data: Prisma.BookUpdateInput) {
     try {
-      const book = await this.bookRepository.findBookById(id);
-      if (!book) {
-        return new NotFoundException("book");
-      }
+      // const book = await this.bookRepository.findBookById(id);
+      // if (!book) {
+      //   return new NotFoundException("book");
+      // }
       const newBook = await this.bookRepository.updateBook(id, data);
       return { data: newBook, status: "success" };
     } catch (error) {
@@ -71,10 +81,10 @@ export class BookService {
 
   async deleteBook(id: string) {
     try {
-      const book = await this.bookRepository.findBookById(id);
-      if (!book) {
-        return new NotFoundException("book");
-      }
+      // const book = await this.bookRepository.findBookById(id);
+      // if (!book) {
+      //   return new NotFoundException("book");
+      // }
       const deleteBook = await this.bookRepository.deleteBook(id);
       return { data: deleteBook, status: "success" };
     } catch (error) {

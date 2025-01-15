@@ -10,10 +10,8 @@ export class BookController {
   async findAll(req: Request, res: Response) {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-    const take = limit;
 
-    const result = await this.bookService.findAll(skip, take);
+    const result = await this.bookService.findAll(page, limit);
     if (result instanceof Error) {
       httpResponseDto.exception(result, res);
       return;

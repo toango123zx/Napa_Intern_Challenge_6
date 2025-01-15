@@ -1,8 +1,10 @@
+import "reflect-metadata";
+
 import {
   extendZodWithOpenApi,
   ZodRequestBody,
 } from "@asteasolutions/zod-to-openapi";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsDate, IsInt, IsNotEmpty, IsString, Min } from "class-validator";
 
 import { z } from "zod";
@@ -11,27 +13,32 @@ extendZodWithOpenApi(z);
 export class CreateBookRequestDto {
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   title: string;
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   description: string;
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   author: string;
 
-  @IsDate()
   @IsNotEmpty()
   @Type(() => Date)
+  @IsDate()
   published_date: Date;
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   genre: string;
 
   @IsString()
   @IsNotEmpty()
+  @Transform(({ value }) => value?.trim())
   summary: string;
 
   @IsInt()
@@ -42,12 +49,12 @@ export class CreateBookRequestDto {
 }
 
 const CreateBookSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  author: z.string(),
+  title: z.string().trim(),
+  description: z.string().trim(),
+  author: z.string().trim(),
   published_date: z.date(),
-  genre: z.string(),
-  summary: z.string(),
+  genre: z.string().trim(),
+  summary: z.string().trim(),
   quantity: z.number(),
 });
 

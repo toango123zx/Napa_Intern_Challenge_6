@@ -1,8 +1,10 @@
+import "reflect-metadata";
+
 import {
   extendZodWithOpenApi,
   ZodRequestBody,
 } from "@asteasolutions/zod-to-openapi";
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import {
   IsDate,
   IsInt,
@@ -18,27 +20,32 @@ extendZodWithOpenApi(z);
 export class UpdateBookRequestDto {
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   title: string;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   description: string;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   author: string;
 
   @IsOptional()
-  @IsDate()
   @Type(() => Date)
+  @IsDate()
   published_date: Date;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   genre: string;
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   summary: string;
 
   @IsOptional()
@@ -49,6 +56,7 @@ export class UpdateBookRequestDto {
 
   @IsOptional()
   @IsString()
+  @Transform(({ value }) => value?.trim())
   status: string;
 }
 

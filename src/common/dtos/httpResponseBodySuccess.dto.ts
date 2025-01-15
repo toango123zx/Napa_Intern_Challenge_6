@@ -3,7 +3,14 @@ import { z } from "zod";
 export interface HttpResponseBodySuccessDto<T> {
   status: string;
   data: T;
-  totalPage?: Number;
+  pagination?: PaginationDto;
+}
+
+interface PaginationDto {
+  totalItems: number;
+  itemsPerPage: number;
+  currentPage: number;
+  totalPages: number;
 }
 
 export const HttpResponseBodySuccessDtoSchema = <T extends z.ZodTypeAny>(
@@ -13,4 +20,10 @@ export const HttpResponseBodySuccessDtoSchema = <T extends z.ZodTypeAny>(
     status: z.string(),
     data: dataSchema ? dataSchema.optional() : z.null(),
     totalPage: z.number(),
+    pagination: z.object({
+      totalItems: z.number(),
+      itemsPerPage: z.number(),
+      currentPage: z.number(),
+      totalPages: z.number(),
+    }),
   });

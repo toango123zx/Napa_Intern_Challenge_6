@@ -15,7 +15,8 @@ import {
   UpdateBookRequestDto,
   UpdateBookRequestDtoSchema,
 } from "./schemas";
-import { validationMiddleware } from "@/middlewares/validationMiddleware";
+import { validationMiddleware } from "@/middlewares/validation.middleware";
+import { validateBookExistsMiddleware } from "@/middlewares/validateExists.middleware";
 
 export const bookRegistry = new OpenAPIRegistry();
 
@@ -84,11 +85,16 @@ router.post(
 );
 router.put(
   "/:id",
+  validateBookExistsMiddleware(),
   validationMiddleware(UpdateBookRequestDto, "body"),
   bookController.updateBook
 );
 
-router.delete("/:id", bookController.deleteBook);
+router.delete(
+  "/:id",
+  validateBookExistsMiddleware(),
+  bookController.deleteBook
+);
 
 registerPaths();
 

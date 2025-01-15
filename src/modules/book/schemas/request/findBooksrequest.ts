@@ -4,7 +4,7 @@ extendZodWithOpenApi(z);
 
 export const FindBooksRequestDtoSchema = z.object({
   query: z.object({
-    page: z.number(),
-    limit: z.number(),
+    page: z.number().int().positive().default(1),
+    limit: z.number().int().positive().default(10),
   }),
 });

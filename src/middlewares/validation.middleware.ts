@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import { plainToClass } from "class-transformer";
 import { validate } from "class-validator";
 import { Request, Response, NextFunction } from "express";
@@ -20,17 +22,16 @@ export const validationMiddleware = (
 
       // Validate dữ liệu
       const errors = await validate(object);
-      console.log(`🚀 ~ file: validationMiddleware.ts:23 ~ errors:`, errors);
 
       if (errors.length > 0) {
         // Trả về lỗi nếu validate thất bại
         res.status(400).json({
           status: "err",
-          message: "Validation failed",
-          //   errors: errors.map((err) => ({
-          //     property: err.property,
-          //     constraints: err.constraints,
-          //   })),
+          message: `Validation ${errors[0].property} failed`,
+          // errors: errors.map((err) => ({
+          //   property: err.property,
+          //   constraints: err.constraints,
+          // })),
         });
         return; // Dừng luồng xử lý sau khi gửi response
       }
