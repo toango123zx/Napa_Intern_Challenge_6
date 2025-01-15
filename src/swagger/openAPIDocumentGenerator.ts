@@ -15,13 +15,13 @@ import { bookRegistry } from "@/modules/book/book.routers";
 export function generateOpenAPIDocument() {
   const registry = new OpenAPIRegistry([bookRegistry]);
 
-  registry.registerComponent("securitySchemes", "bearerAuth", {
-    type: "http",
-    scheme: "bearer",
-    bearerFormat: "JWT",
-    name: "Authorization",
-    in: "header",
-  });
+  // registry.registerComponent("securitySchemes", "bearerAuth", {
+  //   type: "http",
+  //   scheme: "bearer",
+  //   bearerFormat: "JWT",
+  //   name: "Authorization",
+  //   in: "header",
+  // });
 
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
