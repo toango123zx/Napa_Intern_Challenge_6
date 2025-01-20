@@ -4,6 +4,7 @@ import { Exception } from "@tsed/exceptions";
 import {
   HttpResponseBodySuccessDto,
   InternalServerException,
+  InvalidException,
   NotFoundException,
 } from "../../common";
 import { BookRepsitory } from "./book.repository";
@@ -68,10 +69,33 @@ export class BookService {
 
   async updateBook(id: string, data: Prisma.BookUpdateInput) {
     try {
-      // const book = await this.bookRepository.findBookById(id);
-      // if (!book) {
-      //   return new NotFoundException("book");
-      // }
+      const book = await this.bookRepository.findBookById(id);
+
+      if (!book) {
+        return new NotFoundException("book");
+      }
+      if (data.published_date && data.published_date === book.published_date) {
+        return new InvalidException("immutable data");
+      }
+      if (data.title && data.title === book.title) {
+        return new InvalidException("immutable data");
+      }
+      if (data.author && data.author === book.author) {
+        return new InvalidException("immutable data");
+      }
+      if (data.description && data.description === book.description) {
+        return new InvalidException("immutable data");
+      }
+      if (data.genre && data.genre === book.genre) {
+        return new InvalidException("immutable data");
+      }
+      if (data.quantity && data.quantity === book.quantity) {
+        return new InvalidException("immutable data");
+      }
+      if (data.summary && data.status === book.status) {
+        return new InvalidException("immutable data");
+      }
+
       const newBook = await this.bookRepository.updateBook(id, data);
       return { data: newBook, status: "success" };
     } catch (error) {
