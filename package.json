@@ -1,0 +1,52 @@
+{
+  "name": "book_management",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "npx rimraf dist && npx tsup",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"prisma/**/*.ts\"",
+    "start": "node dist/modules/index.js",
+    "start:dev": "tsx watch --clear-screen=false src/index.ts",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "db:push": "npx prisma db push",
+    "db:generate-dto": "npx prisma generate",
+    "db:seed": "npx prisma db seed"
+  },
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^7.3.0",
+    "@prisma/client": "6.2.1",
+    "@tsed/core": "^8.4.1",
+    "@tsed/exceptions": "^8.4.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.9",
+    "@types/reflect-metadata": "^0.1.0",
+    "@types/swagger-ui-express": "^4.1.7",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "envalid": "^8.0.0",
+    "express": "^4.21.2",
+    "http-status-codes": "^2.3.0",
+    "install": "^0.13.0",
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.2.2",
+    "swagger-ui-express": "^5.0.1",
+    "tsup": "^8.3.5",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6",
+    "prisma": "^6.2.1",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "prisma": {
+    "seed": "tsx src/modules/database/seeds/index.ts"
+  }
+}
